@@ -1,8 +1,8 @@
-    import pandas as pd
-    import numpy as np
-    from env import get_db
+import pandas as pd
+import numpy as np
+from env import get_db
 
-    def acquire(db):
+def acquire(db):
     """This function uses env to connect to codeup sequel database by calling db name.
     It selects bedrooms, bathrooms, area as well as tax amount home value and fips.  From May 1 through June 30th 2017.
     It has removed data listings with 0 bathrooms or 0 bedrooms and has filtered property type as Single family residential"""
@@ -13,7 +13,7 @@
     calculatedfinishedsquarefeet as sq_feet,
     taxamount as property_tax, 
     taxvaluedollarcnt as home_value, 
-    proptype.propertylandusedesc as property_type, 
+    propertylandusedesc as property_type, 
     fips
     FROM properties_2017
     JOIN predictions_2017 USING (parcelid)
@@ -27,10 +27,10 @@
     df = pd.read_sql(sql, url)
     return df
 
-    def clean_data(df):
+def clean_data(df):
     df = df.dropna()
-    df['bedroom'] = df['bedroom'].astype(int)
+    df['bedrooms'] = df['bedrooms'].astype(int)
     df['fips'] = df['fips'].astype('int')
     df['home_value'] = df['home_value'].astype(int)
-    df['square_feet'] = df['square_feet'].astype(int)
+    df['sq_feet'] = df['sq_feet'].astype(int)
     return df
